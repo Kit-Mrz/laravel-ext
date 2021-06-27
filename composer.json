@@ -1,5 +1,6 @@
 {
-    "name": "laravel-ext/mrzkit",
+    "name": "mrzkit/laravel-ext",
+    "description": "crud repository",
     "type": "library",
     "license": "MIT",
     "authors": [
