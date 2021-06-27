@@ -1,6 +1,6 @@
 <?php
 
-namespace MrzKit\LaravelExt;
+namespace MrzKit\LaravelExt\Crud;
 
 interface CrudContract
 {
