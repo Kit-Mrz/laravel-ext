@@ -4,7 +4,7 @@ namespace MrzKit\LaravelExt\Crud;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CrudRepository implements ModelContract, CrudContract
+abstract class CrudRepository implements ModelContract, CrudContract
 {
     /**
      * @var Model 模型

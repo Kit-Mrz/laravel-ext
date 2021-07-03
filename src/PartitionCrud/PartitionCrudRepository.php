@@ -4,7 +4,7 @@ namespace MrzKit\LaravelExt\PartitionCrud;
 
 use MrzKit\LaravelExt\Partition\PartitionModel;
 
-class PartitionCrudRepository implements ModelContract, PartitionCrudContract
+abstract class PartitionCrudRepository implements ModelContract, PartitionCrudContract
 {
     /**
      * @var PartitionModel 模型
