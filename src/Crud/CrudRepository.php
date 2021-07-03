@@ -4,7 +4,7 @@ namespace MrzKit\LaravelExt\Crud;
 
 use Illuminate\Database\Eloquent\Model;
 
-abstract class CrudRepository implements CrudContract, ModelContract
+class CrudRepository implements ModelContract, CrudContract
 {
     /**
      * @var Model 模型
@@ -33,7 +33,7 @@ abstract class CrudRepository implements CrudContract, ModelContract
 
     /**
      * @desc 增
-     * @param array $creatData
+     * @param array $creatData 新增数据
      * @return Model
      */
     public function creat(array $creatData)
@@ -61,23 +61,23 @@ abstract class CrudRepository implements CrudContract, ModelContract
     }
 
     /**
-     * @desc 简单检索
+     * @desc 查
      * @param null $page 页码
-     * @param int $perPage 每页的数据条数
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @param int $perPage 每页数
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|mixed
      */
     public function retrieve(int $page = 1, int $perPage = 20)
     {
         $query = $this->getModel()->newQuery();
 
-        $list = $query->orderByDesc($this->getModel()->getKeyName())->paginate($perPage, ['*'], 'page', $page);
+        $rows = $query->orderByDesc($this->getModel()->getKeyName())->paginate($perPage, ['*'], 'page', $page);
 
-        return $list;
+        return $rows;
     }
 
     /**
-     * @desc 更新数据
-     * @param int $id ID主键
+     * @desc 改
+     * @param int $id 主键
      * @param array $updateData
      * @return int|mixed 更新的数据
      */
@@ -85,14 +85,29 @@ abstract class CrudRepository implements CrudContract, ModelContract
     {
         $query = $this->getModel()->newQuery();
 
-        $num = $query->where($this->getModel()->getKeyName(), $id)->update($updateData);
+        $updated = $query->where($this->getModel()->getKeyName(), $id)->update($updateData);
 
-        return $num;
+        return $updated;
     }
 
     /**
-     * @desc 删除
-     * @param int $id ID主键
+     * @desc 改
+     * @param int $id 主键
+     * @param array $updateData 更新的数据
+     * @return mixed
+     */
+    public function withTrashedUpdate(int $id, array $updateData)
+    {
+        $query = $this->getModel()->newQuery();
+
+        $updated = $query->where($this->getModel()->getKeyName(), $id)->withTrashed()->update($updateData);
+
+        return $updated;
+    }
+
+    /**
+     * @desc 删
+     * @param int $id 主键
      * @return mixed
      */
     public function delete(int $id)
@@ -106,30 +121,30 @@ abstract class CrudRepository implements CrudContract, ModelContract
 
     /**
      * @desc 详情
-     * @param int $id
-     * @param array|string[] $defaultFields 查询字段
+     * @param int $id 主键
+     * @param array|string[] $fields 查询字段
      * @return \Illuminate\Database\Eloquent\Builder|Model|mixed|object|null
      */
-    public function detail(int $id, array $defaultFields = ['id'])
+    public function detail(int $id, array $fields = ['id'])
     {
         $query = $this->getModel()->newQuery();
 
-        $row = $query->select($defaultFields)->where($this->getModel()->getKeyName(), $id)->first();
+        $row = $query->select($fields)->where($this->getModel()->getKeyName(), $id)->first();
 
         return $row;
     }
 
     /**
-     * @desc 详情
-     * @param int $id
-     * @param array|string[] $defaultFields 查看的字段
+     * @desc 详情(查软删)
+     * @param int $id 主键
+     * @param array $fields 查询字段
      * @return \Illuminate\Database\Eloquent\Builder|Model|mixed|object|null
      */
-    public function detailWithTrashed(int $id, array $defaultFields = ['id'])
+    public function withTrashedDetail(int $id, array $fields = [])
     {
         $query = $this->getModel()->newQuery();
 
-        $row = $query->select($defaultFields)->where($this->getModel()->getKeyName(), $id)->withTrashed()->first();
+        $row = $query->select($fields)->where($this->getModel()->getKeyName(), $id)->withTrashed()->first();
 
         return $row;
     }

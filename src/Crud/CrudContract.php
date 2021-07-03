@@ -26,6 +26,14 @@ interface CrudContract
     public function update(int $id, array $updateData);
 
     /**
+     * @desc 改(改软删)
+     * @param int $id
+     * @param array $updateData
+     * @return mixed
+     */
+    public function withTrashedUpdate(int $id, array $updateData);
+
+    /**
      * @desc 删
      * @param int $id
      * @return mixed
@@ -39,4 +47,12 @@ interface CrudContract
      * @return mixed
      */
     public function detail(int $id, array $defaultFields = []);
+
+    /**
+     * @desc 详情(查软删)
+     * @param int $id
+     * @param array $defaultFields 查询字段
+     * @return mixed
+     */
+    public function withTrashedDetail(int $id, array $defaultFields = []);
 }

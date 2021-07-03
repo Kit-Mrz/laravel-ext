@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 interface ModelContract
 {
     /**
-     * @desc 设置模型，此方法由子类设置
+     * @desc 设置模型
      * @param Model $model
      * @return mixed
      */
