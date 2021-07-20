@@ -83,7 +83,7 @@ abstract class PartitionModel extends EloquentModel implements PartitionContract
     }
 
     /**
-     * @desc
+     * @desc 选表(表定位)
      * @param int $id
      * @return $this
      */
